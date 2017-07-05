@@ -101,3 +101,23 @@ def find_ndcg_values(ppmi_matrix, ranked_matrix):
     ndcg_values[tag] = dcg / idcg
     
   return ndcg_values
+
+# Finds binary table based on ranked matrix and tag NDCG values.
+def find_binary_table(ranked_matrix, percentile, ndcg_values, cutoff_ndcg):
+  interpretable_tags = []
+  for tag in ndcg_values:
+    if ndcg_values[tag] >= cutoff_ndcg:
+      interpretable_tags.append(tag)
+  
+  binary_table = []
+  num_items = len(ranked_matrix.iloc[0])
+  cutoff_rank = (1 - percentile) * num_items
+  rankings_dict = ranked_matrix.to_dict(orient='index')
+  for tag in interpretable_tags:
+    item_rankings = rankings_dict[tag]
+    for item in item_rankings:
+      if item_rankings[item] <= cutoff_rank:
+        i = (item, tag)
+        binary_table.append(i)
+        
+  return [interpretable_tags, binary_table]
