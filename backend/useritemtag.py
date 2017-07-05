@@ -58,7 +58,7 @@ cursor.close()
 cnx.close()
 
 # Allows users to update either tag table.
-def update_album_tags(tablename, user, item, tag):
+def update_tags(tablename, user, item, tag):
   cnx = mysql.connector.connect(user='root', password='Reverie42', buffered=True)
   cursor = cnx.cursor()
   cnx.database = DB_NAME
@@ -84,7 +84,7 @@ def update_album_tags(tablename, user, item, tag):
   cnx.close()
   
 # Reads either tag table into a dictionary.
-def read_album_tags(tablename):
+def read_tags(tablename):
   cnx = mysql.connector.connect(user='root', password='Reverie42', buffered=True)
   cursor = cnx.cursor()
   cnx.database = DB_NAME
